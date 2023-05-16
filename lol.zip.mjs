@@ -59,7 +59,7 @@ const server = http.createServer((req, res) => {
 
     res.writeHead(200, {
       "Content-Type": "application/zip",
-      "Content-Length": "77420420420420420",
+      "Content-Length": "77700420420420420",
       "Content-Disposition": "attachment; filename=lol.zip",
       Server: "by Dave Caruso <paperdave.net>",
       "X-Source-Code": "https://github.com/paperdave/lol.zip",
