@@ -43,6 +43,20 @@ function shuffle(array) {
 
 const server = http.createServer((req, res) => {
   if (req.url === "/") {
+    const userAgent = req.headers["user-agent"];
+
+    // if known search engine, return a 404
+    // if discord, return a 404
+    if (
+      userAgent.includes("Googlebot") ||
+      userAgent.includes("bingbot") ||
+      userAgent.includes("Discordbot")
+    ) {
+      res.writeHead(404);
+      res.end();
+      return;
+    }
+
     res.writeHead(200, {
       "Content-Type": "application/zip",
       "Content-Length": "77420420420420420",
@@ -72,8 +86,16 @@ const server = http.createServer((req, res) => {
       res.write(array[i]);
       i++;
     }, 100);
+    const timer = setTimeout(() => {
+      clearInterval(int);
+      res.write(
+        "\n\ndamn, you got to the end. congrats. you win nothing. this site closes the connection after 24 hours, since i think the joke wears off at that point."
+      );
+      res.end();
+    }, 86400000);
     res.on("close", () => {
       clearInterval(int);
+      clearTimeout(timer);
       stats_currentlySending--;
     });
   } else if (req.url === "/stats") {
